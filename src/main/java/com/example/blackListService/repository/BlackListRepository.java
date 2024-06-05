@@ -1,4 +1,4 @@
-package com.example.blackListService.dao;
+package com.example.blackListService.repository;
 
 import com.example.blackListService.entity.BlackList;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -21,4 +21,5 @@ public class BlackList {
 
     @Column(name="mask_credit_card")
     private String maskCreditCard;
+
 }
