@@ -7,6 +7,7 @@ import com.example.blackListService.entity.BlackList;
 import com.example.blackListService.service.BlackListService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,12 @@ public class BlackListRestController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(BlackListConstants.STATUS_201,BlackListConstants.MESSAGE_201));
+    }
+
+    @GetMapping("/blacklist/{id}")
+    public EntityModel<BlackListDto> retrieveBlackListCard(@PathVariable int id) {
+
+        return null;
     }
 
 

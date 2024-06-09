@@ -1,6 +1,7 @@
 package com.example.blackListService.service;
 
 import com.example.blackListService.dto.BlackListDto;
+import com.example.blackListService.exception.BlackListAlreadyExistsException;
 import com.example.blackListService.exception.LuhnException;
 import com.example.blackListService.mapper.BlackListMapper;
 import com.example.blackListService.repository.BlackListRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +33,9 @@ public class BlackListService {
      * @param blackListDto
      */
     public void saveBlackListRepository(BlackListDto blackListDto){
+        if(findBlackListCard(blackListDto.getCreditCard())){
+            throw new BlackListAlreadyExistsException(blackListDto.getCreditCard() + " " + "allready exist in the data base");
+        }
         BlackList blackList = BlackListMapper.mapToBlackList(blackListDto,new BlackList());
         // Validate credit card with luhn algorithm
         if (!Utils.luhnValidetor(blackList.getCreditCard())) {
@@ -39,6 +44,15 @@ public class BlackListService {
         blackList.setMaskCreditCard(Utils.mask(blackList.getCreditCard()));
         blackList.setCreditCard(Utils.maskCreditCard(blackList.getCreditCard()));
         blackListRepository.save(blackList);
+    }
+
+    public boolean findBlackListCard(String creditCardNumber){
+        creditCardNumber = Utils.maskCreditCard(creditCardNumber);
+        Optional<BlackList> blackList = blackListRepository.findByCreditCard(creditCardNumber);
+        if(!blackList.isPresent()) {
+            return false;
+        }
+        return true;
     }
 
 
