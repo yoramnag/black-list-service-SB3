@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +25,13 @@ public class BlackListService {
      *
      * @return
      */
-    public List<BlackList> findAll(){
-        return blackListRepository.findAll();
+    public List<BlackListDto> findAll(){
+        List<BlackList> blackListList = blackListRepository.findAll();
+        List<BlackListDto> blackListDtos = new ArrayList<>();
+        for (int i = 0; i < blackListList.size(); i++) {
+            blackListDtos.add(BlackListMapper.mapToBlackListDto(blackListList.get(i),new BlackListDto()));
+        }
+        return blackListDtos;
     }
 
     /**
@@ -55,6 +61,7 @@ public class BlackListService {
         }
         return true;
     }
+
 
     //Return BlackList card by his ID
     public Optional<BlackListDto> findById(int id) {

@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -19,11 +20,6 @@ import java.util.Optional;
 public class BlackListRestController {
 
     private BlackListService blackListService;
-
-//    @GetMapping("/blacklist")
-//    public List<BlackList> retrieveAllBlackListCards(){
-//        return blackListService.findAll();
-//    }
 
     @PostMapping("/blacklist")
     public ResponseEntity<ResponseDto> createBlackListCard(@RequestBody BlackListDto blackListDto){
@@ -37,6 +33,12 @@ public class BlackListRestController {
     public ResponseEntity<Optional<BlackListDto>> retrieveBlackListCard(@PathVariable int id) {
         Optional<BlackListDto> blackListDto = blackListService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(blackListDto);
+    }
+
+    @GetMapping("/blacklist")
+    public ResponseEntity<List<BlackListDto>> retrieveBlackListCard() {
+        List<BlackListDto> blackListDtos = blackListService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(blackListDtos);
     }
 
 
