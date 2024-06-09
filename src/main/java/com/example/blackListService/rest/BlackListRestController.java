@@ -3,17 +3,14 @@ package com.example.blackListService.rest;
 import com.example.blackListService.constants.BlackListConstants;
 import com.example.blackListService.dto.BlackListDto;
 import com.example.blackListService.dto.ResponseDto;
-import com.example.blackListService.entity.BlackList;
 import com.example.blackListService.service.BlackListService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -37,9 +34,9 @@ public class BlackListRestController {
     }
 
     @GetMapping("/blacklist/{id}")
-    public EntityModel<BlackListDto> retrieveBlackListCard(@PathVariable int id) {
-
-        return null;
+    public ResponseEntity<Optional<BlackListDto>> retrieveBlackListCard(@PathVariable int id) {
+        Optional<BlackListDto> blackListDto = blackListService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(blackListDto);
     }
 
 

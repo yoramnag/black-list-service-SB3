@@ -7,7 +7,7 @@ public class BlackListMapper {
 
     public static BlackListDto mapToBlackListDto(BlackList blackList,BlackListDto blackListDto){
         blackListDto.setCreditCard(blackList.getCreditCard());
-        blackListDto.setMaskCreditCard(blackList.getCreditCard());
+        blackListDto.setMaskCreditCard(blackList.getMaskCreditCard());
         return blackListDto;
     }
 

@@ -2,6 +2,7 @@ package com.example.blackListService.service;
 
 import com.example.blackListService.dto.BlackListDto;
 import com.example.blackListService.exception.BlackListAlreadyExistsException;
+import com.example.blackListService.exception.BlackListCardNotFoundException;
 import com.example.blackListService.exception.LuhnException;
 import com.example.blackListService.mapper.BlackListMapper;
 import com.example.blackListService.repository.BlackListRepository;
@@ -53,6 +54,15 @@ public class BlackListService {
             return false;
         }
         return true;
+    }
+
+    //Return BlackList card by his ID
+    public Optional<BlackListDto> findById(int id) {
+        BlackList blackList = blackListRepository.findById(id).orElseThrow(
+                ()-> new BlackListCardNotFoundException("black list card", "ID", String.valueOf(id))
+        );
+        BlackListDto blackListDto = BlackListMapper.mapToBlackListDto(blackList,new BlackListDto());
+        return Optional.of(blackListDto);
     }
 
 

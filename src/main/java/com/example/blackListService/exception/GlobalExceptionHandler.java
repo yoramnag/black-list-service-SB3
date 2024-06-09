@@ -72,7 +72,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BlackListCardNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(BlackListCardNotFoundException exception,
+    public ResponseEntity<ErrorResponseDto> handleBlackListCardNotFoundException(BlackListCardNotFoundException exception,
                                                                             WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
