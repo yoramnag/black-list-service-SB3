@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -33,12 +32,12 @@ public class BlackListRestController {
 
     /**
      * get black list card by credit Card number
-     * @param creditCardNumbet black list credit card number
+     * @param creditCardNumber black list credit card number
      * @return status OK if credit card exist on the BlackList table
      */
-    @GetMapping("/blacklist/{creditCardNumbet}")
-    public ResponseEntity<Optional<BlackListDto>> retrieveBlackListCard(@PathVariable String creditCardNumbet) {
-        Optional<BlackListDto> blackListDto = blackListService.findByCreditCardNumber(creditCardNumbet);
+    @GetMapping("/blacklist/{creditCardNumber}")
+    public ResponseEntity<BlackListDto> retrieveBlackListCard(@PathVariable String creditCardNumber) {
+        BlackListDto blackListDto = blackListService.findByCreditCardNumber(creditCardNumber);
         return ResponseEntity.status(HttpStatus.OK).body(blackListDto);
     }
 
@@ -53,6 +52,14 @@ public class BlackListRestController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(BlackListConstants.STATUS_201,BlackListConstants.MESSAGE_201));
+    }
+
+    @DeleteMapping("/blacklist/{creditCardNumber}")
+    public ResponseEntity<ResponseDto> deleteCreditCardByCreditNumber(@PathVariable String creditCardNumber) {
+        blackListService.deletBlackListCardByCardNumber(creditCardNumber);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto(BlackListConstants.STATUS_200,BlackListConstants.MESSAGE_200));
     }
 
 

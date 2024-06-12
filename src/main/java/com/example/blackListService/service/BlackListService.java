@@ -38,13 +38,13 @@ public class BlackListService {
      * @param creditCard
      * @return
      */
-    public Optional<BlackListDto> findByCreditCardNumber(String creditCard) {
+    public BlackListDto findByCreditCardNumber(String creditCard) {
         Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCard);
         if (!blackListOpt.isPresent()) {
             throw new BlackListCardNotFoundException("black list card", "creditCard", creditCard);
         }
         BlackListDto blackListDto = BlackListMapper.mapToBlackListDto(blackListOpt,new BlackListDto());
-        return Optional.of(blackListDto);
+        return blackListDto;
     }
 
     /**
@@ -67,6 +67,18 @@ public class BlackListService {
     }
 
     /**
+     * delete black list credit card by credit card number
+     * @param creditCardNumber credit card number to delete
+     */
+    public void deletBlackListCardByCardNumber(String creditCardNumber){
+        Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCardNumber);
+        if (!blackListOpt.isPresent()) {
+            throw new BlackListCardNotFoundException("black list card", "creditCard", creditCardNumber);
+        }
+        blackListRepository.deleteById(blackListOpt.stream().toList().get(0).getId());
+    }
+
+    /**
      * @param creditCardNumber
      * @return
      */
@@ -79,6 +91,11 @@ public class BlackListService {
         return blackList;
     }
 
+    /**
+     *
+     * @param creditCardNumber
+     * @return
+     */
     private boolean checkIfCreditCradAllReadyExist(String creditCardNumber){
         creditCardNumber = Utils.maskCreditCard(creditCardNumber);
         Optional<BlackList> blackList = blackListRepository.findByCreditCard(creditCardNumber);
