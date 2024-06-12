@@ -54,6 +54,11 @@ public class BlackListRestController {
                 .body(new ResponseDto(BlackListConstants.STATUS_201,BlackListConstants.MESSAGE_201));
     }
 
+    /**
+     * delete credit card from BlackList table
+     * @param creditCardNumber black list credit card number
+     * @return
+     */
     @DeleteMapping("/blacklist/{creditCardNumber}")
     public ResponseEntity<ResponseDto> deleteCreditCardByCreditNumber(@PathVariable String creditCardNumber) {
         blackListService.deletBlackListCardByCardNumber(creditCardNumber);

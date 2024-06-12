@@ -22,10 +22,8 @@ public class BlackListMapper {
     }
 
     public static BlackListDto mapToBlackListDto(Optional<BlackList> blackListOpt, BlackListDto blackListDto) {
-        List<BlackList> blackListList = new ArrayList<>();
-        blackListList=blackListOpt.stream().toList();
-        blackListDto.setCreditCard(blackListList.get(0).getCreditCard());
-        blackListDto.setMaskCreditCard(blackListList.get(0).getMaskCreditCard());
+        blackListDto.setCreditCard(blackListOpt.stream().toList().get(0).getCreditCard());
+        blackListDto.setMaskCreditCard(blackListOpt.stream().toList().get(0).getMaskCreditCard());
         return blackListDto;
     }
 }
