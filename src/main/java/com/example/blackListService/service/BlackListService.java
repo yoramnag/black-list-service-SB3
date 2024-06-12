@@ -8,7 +8,6 @@ import com.example.blackListService.mapper.BlackListMapper;
 import com.example.blackListService.repository.BlackListRepository;
 import com.example.blackListService.entity.BlackList;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,16 +21,30 @@ public class BlackListService {
     private BlackListRepository blackListRepository;
 
     /**
-     *
-     * @return
+     * get all records from BlackList table
+     * @return list of all black list credit cards from BlackList table
      */
     public List<BlackListDto> findAll(){
         List<BlackList> blackListList = blackListRepository.findAll();
         List<BlackListDto> blackListDtos = new ArrayList<>();
-        for (int i = 0; i < blackListList.size(); i++) {
-            blackListDtos.add(BlackListMapper.mapToBlackListDto(blackListList.get(i),new BlackListDto()));
+        for (BlackList blackList : blackListList) {
+            blackListDtos.add(BlackListMapper.mapToBlackListDto(blackList, new BlackListDto()));
         }
         return blackListDtos;
+    }
+
+    /**
+     *
+     * @param creditCard
+     * @return
+     */
+    public Optional<BlackListDto> findByCreditCardNumber(String creditCard) {
+        Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCard);
+        if (!blackListOpt.isPresent()) {
+            throw new BlackListCardNotFoundException("black list card", "creditCard", creditCard);
+        }
+        BlackListDto blackListDto = BlackListMapper.mapToBlackListDto(blackListOpt,new BlackListDto());
+        return Optional.of(blackListDto);
     }
 
     /**
@@ -40,7 +53,7 @@ public class BlackListService {
      * @param blackListDto
      */
     public void saveBlackListRepository(BlackListDto blackListDto){
-        if(findBlackListCard(blackListDto.getCreditCard())){
+        if (checkIfCreditCradAllReadyExist(blackListDto.getCreditCard())){
             throw new BlackListAlreadyExistsException(blackListDto.getCreditCard() + " " + "allready exist in the data base");
         }
         BlackList blackList = BlackListMapper.mapToBlackList(blackListDto,new BlackList());
@@ -53,7 +66,20 @@ public class BlackListService {
         blackListRepository.save(blackList);
     }
 
-    public boolean findBlackListCard(String creditCardNumber){
+    /**
+     * @param creditCardNumber
+     * @return
+     */
+    private Optional<BlackList> findBlackListCardByCardNumber(String creditCardNumber){
+        creditCardNumber = Utils.maskCreditCard(creditCardNumber);
+        Optional<BlackList> blackList = blackListRepository.findByCreditCard(creditCardNumber);
+        if(!blackList.isPresent()) {
+            throw new BlackListCardNotFoundException("black list card", "Credit Card", String.valueOf(creditCardNumber));
+        }
+        return blackList;
+    }
+
+    private boolean checkIfCreditCradAllReadyExist(String creditCardNumber){
         creditCardNumber = Utils.maskCreditCard(creditCardNumber);
         Optional<BlackList> blackList = blackListRepository.findByCreditCard(creditCardNumber);
         if(!blackList.isPresent()) {
@@ -63,14 +89,7 @@ public class BlackListService {
     }
 
 
-    //Return BlackList card by his ID
-    public Optional<BlackListDto> findById(int id) {
-        BlackList blackList = blackListRepository.findById(id).orElseThrow(
-                ()-> new BlackListCardNotFoundException("black list card", "ID", String.valueOf(id))
-        );
-        BlackListDto blackListDto = BlackListMapper.mapToBlackListDto(blackList,new BlackListDto());
-        return Optional.of(blackListDto);
-    }
+
 
 
 

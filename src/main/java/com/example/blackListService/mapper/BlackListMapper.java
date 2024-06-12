@@ -3,6 +3,10 @@ package com.example.blackListService.mapper;
 import com.example.blackListService.dto.BlackListDto;
 import com.example.blackListService.entity.BlackList;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class BlackListMapper {
 
     public static BlackListDto mapToBlackListDto(BlackList blackList,BlackListDto blackListDto){
@@ -15,5 +19,13 @@ public class BlackListMapper {
         blackList.setCreditCard(blackListDto.getCreditCard());
         blackList.setMaskCreditCard(blackListDto.getMaskCreditCard());
         return blackList;
+    }
+
+    public static BlackListDto mapToBlackListDto(Optional<BlackList> blackListOpt, BlackListDto blackListDto) {
+        List<BlackList> blackListList = new ArrayList<>();
+        blackListList=blackListOpt.stream().toList();
+        blackListDto.setCreditCard(blackListList.get(0).getCreditCard());
+        blackListDto.setMaskCreditCard(blackListList.get(0).getMaskCreditCard());
+        return blackListDto;
     }
 }
