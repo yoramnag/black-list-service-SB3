@@ -61,7 +61,7 @@ public class BlackListRestController {
      */
     @DeleteMapping("/blacklist/{creditCardNumber}")
     public ResponseEntity<ResponseDto> deleteCreditCardByCreditNumber(@PathVariable String creditCardNumber) {
-        blackListService.deletBlackListCardByCardNumber(creditCardNumber);
+        blackListService.deleteBlackListCardByCardNumber(creditCardNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseDto(BlackListConstants.STATUS_200,BlackListConstants.MESSAGE_200));

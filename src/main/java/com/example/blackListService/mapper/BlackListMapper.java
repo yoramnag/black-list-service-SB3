@@ -3,8 +3,6 @@ package com.example.blackListService.mapper;
 import com.example.blackListService.dto.BlackListDto;
 import com.example.blackListService.entity.BlackList;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class BlackListMapper {

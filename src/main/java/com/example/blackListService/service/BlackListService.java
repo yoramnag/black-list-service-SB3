@@ -70,7 +70,7 @@ public class BlackListService {
      * delete black list credit card by credit card number
      * @param creditCardNumber credit card number to delete
      */
-    public void deletBlackListCardByCardNumber(String creditCardNumber){
+    public void deleteBlackListCardByCardNumber(String creditCardNumber){
         Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCardNumber);
         if (!blackListOpt.isPresent()) {
             throw new BlackListCardNotFoundException("black list card", "creditCard", creditCardNumber);
