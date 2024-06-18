@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class BlackListAlreadyExistsException extends RuntimeException {
+public class BlackListAllReadyExistsException extends RuntimeException {
 
-    public BlackListAlreadyExistsException(String message) {
+    public BlackListAllReadyExistsException(String message) {
         super(message);
     }
 

@@ -1,7 +1,7 @@
 package com.example.blackListService.service;
 
 import com.example.blackListService.dto.BlackListDto;
-import com.example.blackListService.exception.BlackListAlreadyExistsException;
+import com.example.blackListService.exception.BlackListAllReadyExistsException;
 import com.example.blackListService.exception.BlackListCardNotFoundException;
 import com.example.blackListService.exception.LuhnException;
 import com.example.blackListService.mapper.BlackListMapper;
@@ -54,7 +54,7 @@ public class BlackListService {
      */
     public void saveBlackListRepository(BlackListDto blackListDto){
         if (checkIfCreditCradAllReadyExist(blackListDto.getCreditCard())){
-            throw new BlackListAlreadyExistsException(blackListDto.getCreditCard() + " " + "allready exist in the data base");
+            throw new BlackListAllReadyExistsException(blackListDto.getCreditCard() + " " + "allready exist in the data base");
         }
         BlackList blackList = BlackListMapper.mapToBlackList(blackListDto,new BlackList());
         // Validate credit card with luhn algorithm

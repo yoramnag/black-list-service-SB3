@@ -59,9 +59,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(BlackListAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleBlackListAlreadyExistsException(BlackListAlreadyExistsException exception,
-                                                                            WebRequest webRequest) {
+    @ExceptionHandler(BlackListAllReadyExistsException.class)
+    public ResponseEntity<ErrorResponseDto> handleBlackListAlreadyExistsException(BlackListAllReadyExistsException exception,
+                                                                                  WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.BAD_REQUEST,
