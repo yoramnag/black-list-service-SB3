@@ -24,7 +24,7 @@ import java.util.List;
 
 @Tag(
         name = "CRUD REST APIs for black list ",
-        description = "CRUD REST APIs in black list to CREATE, FETCH AND DELETE black list"
+        description = "CRUD REST APIs in black list to CREATE, FETCH, UPDATE AND DELETE black list"
 )
 @RestController
 @RequestMapping(path = "/api" , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -146,11 +146,43 @@ public class BlackListRestController {
     }
 
     /**
-     *
-     * @param creditCardNumber
-     * @param newCreditCardNumber
-     * @return
+     * update credit card number in the black list table
+     * @param creditCardNumber credit card to update
+     * @param newCreditCardNumber new credit card number
+     * @return OK if all checks are passed
      */
+    @Operation(
+            summary = "update black list REST API",
+            description = "update black list card by credit Card number"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "HTTP Status Bad Request, credit card must be 16 digits",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "HTTP Status Black List NOT found",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @PutMapping("/updateBlacklist")
     public ResponseEntity<ResponseDto> updateBlackListCard(@RequestParam
                                                               @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
@@ -212,10 +244,28 @@ public class BlackListRestController {
     }
 
     /**
-     *
-     * @param creditCardNumber
-     * @return
+     * check if credit card is exist the black list table
+     * @param creditCardNumber to check
+     * @return TRUE if the card exist in the black list table , FALSE if it's not
      */
+    @Operation(
+            summary = "check black list REST API",
+            description = "check if credit card number is exist the black list table"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
     @GetMapping("/checkBlacklist")
     public boolean checkIfCreditCradAllReadyExist(@RequestParam
                                                               @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
