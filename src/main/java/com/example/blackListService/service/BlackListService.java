@@ -67,6 +67,22 @@ public class BlackListService {
     }
 
     /**
+     * update credit card number in the black list table
+     * @param creditCardNumber to be updated
+     * @param newCreditCardNumber new credit card number
+     */
+    public void updateByCreditCardNumber(String creditCardNumber, String newCreditCardNumber) {
+        Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCardNumber);
+        if (!blackListOpt.isPresent()) {
+            throw new BlackListCardNotFoundException("black list card", "creditCard", creditCardNumber);
+        }
+        BlackList blackList = BlackListMapper.mapToBlackList(blackListOpt,new BlackList());
+        blackList.setMaskCreditCard(Utils.mask(newCreditCardNumber));
+        blackList.setCreditCard(Utils.maskCreditCard(newCreditCardNumber));
+        blackListRepository.save(blackList);
+    }
+
+    /**
      * delete black list credit card by credit card number
      * @param creditCardNumber credit card number to delete
      */
@@ -96,7 +112,7 @@ public class BlackListService {
      * @param creditCardNumber
      * @return
      */
-    private boolean checkIfCreditCradAllReadyExist(String creditCardNumber){
+    public boolean checkIfCreditCradAllReadyExist(String creditCardNumber){
         creditCardNumber = Utils.maskCreditCard(creditCardNumber);
         Optional<BlackList> blackList = blackListRepository.findByCreditCard(creditCardNumber);
         if(!blackList.isPresent()) {
@@ -104,9 +120,6 @@ public class BlackListService {
         }
         return true;
     }
-
-
-
 
 
 

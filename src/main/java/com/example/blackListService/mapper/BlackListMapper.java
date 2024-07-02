@@ -24,4 +24,11 @@ public class BlackListMapper {
         blackListDto.setMaskCreditCard(blackListOpt.stream().toList().get(0).getMaskCreditCard());
         return blackListDto;
     }
+
+    public static BlackList mapToBlackList(Optional<BlackList> blackListOpt , BlackList blackList){
+        blackList.setId(blackListOpt.stream().toList().get(0).getId());
+        blackList.setCreditCard(blackListOpt.stream().toList().get(0).getCreditCard());
+        blackList.setMaskCreditCard(blackListOpt.stream().toList().get(0).getMaskCreditCard());
+        return blackList;
+    }
 }

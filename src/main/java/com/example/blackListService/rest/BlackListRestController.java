@@ -146,6 +146,25 @@ public class BlackListRestController {
     }
 
     /**
+     *
+     * @param creditCardNumber
+     * @param newCreditCardNumber
+     * @return
+     */
+    @PutMapping("/updateBlacklist")
+    public ResponseEntity<ResponseDto> updateBlackListCard(@RequestParam
+                                                              @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
+                                                              String creditCardNumber,
+                                                            @RequestParam
+                                                            @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
+                                                            String newCreditCardNumber) {
+        blackListService.updateByCreditCardNumber(creditCardNumber,newCreditCardNumber);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto(BlackListConstants.STATUS_200,BlackListConstants.MESSAGE_200));
+    }
+
+    /**
      * delete credit card from BlackList table
      * @param creditCardNumber black list credit card number
      * @return
@@ -191,6 +210,20 @@ public class BlackListRestController {
                 .status(HttpStatus.OK)
                 .body(new ResponseDto(BlackListConstants.STATUS_200,BlackListConstants.MESSAGE_200));
     }
+
+    /**
+     *
+     * @param creditCardNumber
+     * @return
+     */
+    @GetMapping("/checkBlacklist")
+    public boolean checkIfCreditCradAllReadyExist(@RequestParam
+                                                              @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
+                                                              String creditCardNumber){
+        return blackListService.checkIfCreditCradAllReadyExist(creditCardNumber);
+    }
+
+
 
 
 
