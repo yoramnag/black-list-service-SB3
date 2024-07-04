@@ -34,9 +34,9 @@ public class BlackListService {
     }
 
     /**
-     *
-     * @param creditCard
-     * @return
+     * get black list card by credit card number
+     * @param creditCard to get
+     * @return black list card
      */
     public BlackListDto findByCreditCardNumber(String creditCard) {
         Optional<BlackList> blackListOpt = findBlackListCardByCardNumber(creditCard);

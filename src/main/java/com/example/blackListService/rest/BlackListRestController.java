@@ -199,7 +199,7 @@ public class BlackListRestController {
     /**
      * delete credit card from BlackList table
      * @param creditCardNumber black list credit card number
-     * @return
+     * @return status OK if credit card was successfully deleted the BlackList table
      */
     @Operation(
             summary = "delete black list REST API",
