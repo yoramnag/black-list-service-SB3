@@ -1,0 +1,37 @@
+services:
+  naming-server:
+    image: "yoramnagdocker/naming-server:0.0.1-SNAPSHOT"
+    container_name: naming-server-ms
+    ports:
+      - "8761:8761"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - creditCard
+  black-list:
+    image: "yoramnagdocker/black-list-service:0.0.1-SNAPSHOT"
+    container_name: black-list-ms
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - creditCard
+  transactions:
+    image: "yoramnagdocker/transactions:0.0.1-SNAPSHOT"
+    container_name: transactions-ms
+    ports:
+      - "8100:8100"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - creditCard
+networks:
+  creditCard:
+    driver: "bridge"
