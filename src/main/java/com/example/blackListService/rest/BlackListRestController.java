@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ import java.util.List;
 public class BlackListRestController {
 
     private BlackListService blackListService;
+
+    private static final Logger logger = LoggerFactory.getLogger(BlackListRestController.class);
 
     /**
      * get all records from BlackList table
@@ -138,7 +142,9 @@ public class BlackListRestController {
     }
     )
     @PostMapping("/createBlacklist")
-    public ResponseEntity<ResponseDto> createBlackListCard(@Valid @RequestBody BlackListDto blackListDto){
+    public ResponseEntity<ResponseDto> createBlackListCard(@RequestHeader("creditCard-correlation-id") String correlationId,
+                                                           @Valid @RequestBody BlackListDto blackListDto){
+        logger.debug("creditCard-correlation-id found {}",correlationId);
         blackListService.saveBlackListRepository(blackListDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -267,9 +273,11 @@ public class BlackListRestController {
     }
     )
     @GetMapping("/checkBlacklist")
-    public boolean checkIfCreditCradAllReadyExist(@RequestParam
+    public boolean checkIfCreditCradAllReadyExist(@RequestHeader("creditCard-correlation-id") String correlationId ,
+                                                  @RequestParam
                                                               @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
                                                               String creditCardNumber){
+        logger.debug("creditCard-correlation-id found {}",correlationId);
         return blackListService.checkIfCreditCradAllReadyExist(creditCardNumber);
     }
 
