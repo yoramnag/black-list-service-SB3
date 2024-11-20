@@ -280,12 +280,4 @@ public class BlackListRestController {
         logger.debug("creditCard-correlation-id found {}",correlationId);
         return blackListService.checkIfCreditCradAllReadyExist(creditCardNumber);
     }
-
-
-
-
-
-
-
-
 }
