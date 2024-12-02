@@ -144,8 +144,9 @@ public class BlackListRestController {
     @PostMapping("/createBlacklist")
     public ResponseEntity<ResponseDto> createBlackListCard(@RequestHeader("creditCard-correlation-id") String correlationId,
                                                            @Valid @RequestBody BlackListDto blackListDto){
-        logger.debug("creditCard-correlation-id found {}",correlationId);
+        logger.debug("createBlackListCard start");
         blackListService.saveBlackListRepository(blackListDto);
+        logger.debug("createBlackListCard start");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(BlackListConstants.STATUS_201,BlackListConstants.MESSAGE_201));
@@ -277,7 +278,9 @@ public class BlackListRestController {
                                                   @RequestParam
                                                               @Pattern(regexp = "(^$|[0-9]{16})", message = "credit card must be 16 digits")
                                                               String creditCardNumber){
-        logger.debug("creditCard-correlation-id found {}",correlationId);
-        return blackListService.checkIfCreditCradAllReadyExist(creditCardNumber);
+        logger.debug("checkIfCreditCradAllReadyExist start");
+        boolean ans = blackListService.checkIfCreditCradAllReadyExist(creditCardNumber);
+        logger.debug("checkIfCreditCradAllReadyExist end");
+        return ans;
     }
 }
